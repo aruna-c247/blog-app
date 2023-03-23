@@ -18,4 +18,12 @@ class Category extends Model
         'id',
         'category_name',
     ];
+
+    /**
+     * Get the blog that owns the category.
+     */
+    public function blog()
+    {
+        return $this->belongsTo(Blog::class,'category_id', 'id');
+    }
 }

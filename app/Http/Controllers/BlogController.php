@@ -4,7 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\BlogStoreRequest;
+use App\Http\Requests\BlogUpdateRequest;
 use App\Models\User;
+use App\Models\Blog;
+use App\Models\Category;
+use File;
+
 
 class BlogController extends Controller
 {
@@ -13,9 +20,14 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('content.blogs.blog-list');
+        // pagination
+        $perPage = ($request->per_page) ? $request->per_page : 10;
+       
+        $blogData = Blog::with('category')->orderBy('id', 'desc')->paginate($perPage);
+
+        return view('content.blogs.blog-list', compact('blogData'));
     }
 
     /**
@@ -25,7 +37,9 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('content.blogs.create-blog');
+        $categoryData = Category::all();
+       
+        return view('content.blogs.create-blog-page', compact('categoryData'));
     }
 
     /**
@@ -34,53 +48,91 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogStoreRequest $request, Blog $blog)
     {
-        //
-    }
+        $blogData['title'] = $request->title;
+        $blogData['category_id'] = $request->category;
+        $blogData['status'] = $request->status;
+        $blogData['user_id'] = 1; //Auth::id(); 
+      
+        $blogData['description'] = $request->description ? $request->description : null;
+        $blogData['slug'] = $request->slug;
+        
+        // add feature image 
+        if ($request->hasFile('feature_image')) {
+           
+            $imgName = $request->file('feature_image')->getClientOriginalName();
+                
+            $imageEncodeName = rand().'_'.time().'_'.$imgName;
+            $request->feature_image->move(public_path('images/blog_feature_images'), $imageEncodeName);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+            $blogData['feature_image'] = $imageEncodeName;
+              
+        }
+        // save blog data
+        $blog->create($blogData);
+
+       return redirect('blog-list')->with('success', 'Blog created successfully!');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        // get all categories
+        $categoryData = Category::all();
+
+        // get specific blog via slug
+        $blogData = Blog::firstWhere('slug', $slug);
+        
+        return view('content.blogs.edit-blog-page', compact('categoryData', 'blogData'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogUpdateRequest $request, $slug)
     {
-        //
+        $blogData['title'] = $request->title;
+        $blogData['category_id'] = $request->category;
+        $blogData['status'] = $request->status;
+        $blogData['user_id'] = 1; //Auth::id(); 
+        $blogData['description'] = $request->description ? $request->description : null;
+
+        // update feature image 
+        if ($request->hasFile('feature_image')) {
+           
+            $imgName = $request->file('feature_image')->getClientOriginalName();
+                
+            $imageEncodeName = rand().'_'.time().'_'.$imgName;
+            $request->feature_image->move(public_path('images/blog_feature_images'), $imageEncodeName);
+
+            $blogData['feature_image'] = $imageEncodeName;
+              
+        }
+        Blog::where('slug', $slug)->update($blogData);
+        return redirect('blog-list')->with('success', 'Blog updated successfully!');
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $blogData = Blog::where('slug', $slug)->delete();
+
+        return redirect('blog-list')->with('success', 'Blog deleted successfully!');
     }
 }
