@@ -26,7 +26,7 @@ class BlogController extends Controller
         $perPage = ($request->per_page) ? $request->per_page : 10;
        
         $blogData = Blog::with('category')->orderBy('id', 'desc')->paginate($perPage);
-
+    
         return view('content.blogs.blog-list', compact('blogData'));
     }
 
@@ -53,7 +53,7 @@ class BlogController extends Controller
         $blogData['title'] = $request->title;
         $blogData['category_id'] = $request->category;
         $blogData['status'] = $request->status;
-        $blogData['user_id'] = 1; //Auth::id(); 
+        $blogData['user_id'] = Auth::id(); 
       
         $blogData['description'] = $request->description ? $request->description : null;
         $blogData['slug'] = $request->slug;
@@ -104,7 +104,7 @@ class BlogController extends Controller
         $blogData['title'] = $request->title;
         $blogData['category_id'] = $request->category;
         $blogData['status'] = $request->status;
-        $blogData['user_id'] = 1; //Auth::id(); 
+        $blogData['user_id'] = Auth::id(); 
         $blogData['description'] = $request->description ? $request->description : null;
 
         // update feature image 

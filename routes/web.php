@@ -23,6 +23,11 @@ Route::get('/forgot-password', $controller_path . '\authentications\ForgotPasswo
 Route::post('/register', $controller_path . '\authentications\RegisterBasic@registerUser');
 Route::post('/login', $controller_path . '\authentications\LoginBasic@customLogin');
     
+Route::get('thank-you', $controller_path. '\authentications\RegisterBasic@thankYou');
+Route::get('test', $controller_path. '\authentications\RegisterBasic@mailVerifyPage');
+Route::get('test2', $controller_path. '\authentications\RegisterBasic@mailforgotpasswordPage');
+Route::get('verification', $controller_path. '\authentications\RegisterBasic@verifyToken')->name('verification');
+Route::get('token-expire', $controller_path. '\authentications\RegisterBasic@tokenExpire')->name('token-expire');  
 
 
 Route::middleware('auth')->group(function() {
@@ -47,5 +52,14 @@ Route::middleware('auth')->group(function() {
     
 });
 
+
+//frontend routes
+Route::group(['prefix' => 'megakitapp'], function () {
+    $controller_path = 'App\Http\Controllers';
+
+    Route::get('/', $controller_path . '\frontend\BlogController@index');
+    Route::get('/blog-detail/{key}', $controller_path . '\frontend\BlogController@blogDetail')->name('blog-detail');
+    
+});
 
 
