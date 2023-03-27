@@ -39,6 +39,7 @@ class RegisterBasic extends Controller
       $userData['email'] = $request->email;
       $userData['password'] = Hash::make($request->password);
       //$userData['password'] = Str::random( 16 );
+      $userData['status'] = 1;
       $user = User::create($userData);
 
       // check user is exist
@@ -120,6 +121,7 @@ class RegisterBasic extends Controller
       }
     }
 
+    // method for check the view
     /**
      * show error page
      */

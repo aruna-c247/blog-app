@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Blog;
 use App\Models\Category;
+use DB;
 
 class BlogController extends Controller
 {
@@ -21,13 +22,35 @@ class BlogController extends Controller
         // pagination
         $perPage = ($request->per_page) ? $request->per_page : 4;
     
-        $blogsData = Blog::with('category')->paginate($perPage); //->orderBy('id', 'desc')->
-
+        //$blogsData = Blog::with('category')->paginate($perPage); //->orderBy('id', 'desc')->
+        
         //get all categories
         $categoryData = Category::all();
         
         // get latest 3 records
         $latestBlog = Blog::latest()->take(3)->get();
+
+        /**************Added search filter code**********************/
+        $search = ($request->search) ? $request->search : '';
+
+        
+        if  (!empty($search)) {
+            $blogsData = DB::table('blogs');
+
+            $blogsData = $blogsData->orWhere('blogs.title', 'like', "%$search%");
+            $blogsData = $blogsData->orWhere('blogs.slug', 'like', "%$search%");
+            $blogsData = $blogsData->orWhere('categories.slug', 'like', "%$search%");
+
+            $blogsData = $blogsData
+                ->select('blogs.*', 'categories.slug as categorySlug', 'categories.category_name')
+                ->leftJoin('categories', 'categories.id', 'blogs.id')
+                ->paginate($perPage);
+
+           
+        } else {
+            $blogsData = Blog::with('category')->paginate($perPage);
+        }
+        /***********end search filter query here***************/ 
 
         return view('content.frontend.home', compact('blogsData', 'categoryData', 'latestBlog'));
     }
@@ -37,17 +60,24 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function blogDetail($slug)
+    public function blogDetail(Request $request)
     {
+        $slug = $request->blog;
         //get all categories
         $categoryData = Category::all();
 
         // get specific blog via slug
         $blogDetail = Blog::firstWhere('slug', $slug);
 
+       // dd($blogDetail->user_id);
+        $userDetail = [];
+        if (!empty($blogDetail)) {
+            $userDetail = User::findOrFail($blogDetail->user_id);
+        }
+        //dd($userDetail);
         // get latest 3 records
         $latestBlog = Blog::latest()->take(3)->get();
-        return view('content.frontend.blog-detail-page', compact('blogDetail', 'latestBlog', 'categoryData'));
+        return view('content.frontend.blog-detail-page', compact('blogDetail', 'latestBlog', 'categoryData', 'userDetail'));
     }
 
     /**

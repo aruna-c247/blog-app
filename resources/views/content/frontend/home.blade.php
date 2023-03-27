@@ -23,6 +23,9 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
 
+  <!-- created custom css -->
+  <link rel="stylesheet" href="{{asset('frontend/css/custom.css')}}">
+
 </head>
 
 <body>
@@ -122,19 +125,25 @@
 					<!-- create dynamic blog -->
 					@if (!empty($blogsData))
 						@foreach ($blogsData as $blog)
+					
 							<div class="col-lg-6 col-md-6 mb-5">
 								<div class="blog-item">
 									<img src="{{url('images/blog_feature_images/'.$blog->feature_image)}}" alt="" class="img-fluid rounded">
 
 									<div class="blog-item-content bg-white p-4">
 										<div class="blog-item-meta  py-1 px-2">
+										@if (isset($blog->category->category_name))
 											<span class="text-muted text-capitalize mr-3"><i class="ti-pencil-alt mr-2"></i>{{ $blog->category->category_name }}</span>
+										@else
+											<span class="text-muted text-capitalize mr-3"><i class="ti-pencil-alt mr-2"></i>{{ $blog->category_name }}</span>
+										@endif
+										
 										</div> 
 
-										<h3 class="mt-3 mb-3"><a href="{{url('megakitapp/blog-detail/'.$blog->slug)}}"> {{ $blog->title }}</a></h3>
+										<h3 class="mt-3 mb-3"><a href="{{url('megakitapp/blog-detail?blog='.$blog->slug)}}"> {{ $blog->title }}</a></h3>
 										<p class="mb-4">{{ $blog->description }}</p>
 
-										<a href="{{url('megakitapp/blog-detail/'.$blog->slug)}}" class="btn btn-small btn-main btn-round-full">Learn More</a>
+										<a href="{{url('megakitapp/blog-detail?blog='.$blog->slug)}}" class="btn btn-small btn-main btn-round-full">Learn More</a>
 									</div>
 								</div>
 							</div>
@@ -146,35 +155,11 @@
             <div class="col-lg-4">
                 <div class="sidebar-wrap">
 					<div class="sidebar-widget search card p-4 mb-3 border-0">
-						<input type="text" class="form-control" placeholder="search">
-						<a href="#" class="btn btn-mian btn-small d-block mt-2">search</a>
-					</div>
-
-					<div class="sidebar-widget card border-0 mb-3">
-						<img src="{{asset('frontend/images/blog/blog-author.jpg')}}" alt="" class="img-fluid">
-						<div class="card-body p-4 text-center">
-							<h5 class="mb-0 mt-4">Arther Conal</h5>
-							<p>Digital Marketer</p>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, dolore.</p>
-
-							<ul class="list-inline author-socials">
-								<li class="list-inline-item mr-3">
-									<a href="#"><i class="fab fa-facebook-f text-muted"></i></a>
-								</li>
-								<li class="list-inline-item mr-3">
-									<a href="#"><i class="fab fa-twitter text-muted"></i></a>
-								</li>
-								<li class="list-inline-item mr-3">
-									<a href="#"><i class="fab fa-linkedin-in text-muted"></i></a>
-								</li>
-								<li class="list-inline-item mr-3">
-									<a href="#"><i class="fab fa-pinterest text-muted"></i></a>
-								</li>
-								<li class="list-inline-item mr-3">
-									<a href="#"><i class="fab fa-behance text-muted"></i></a>
-								</li>
-							</ul>
-						</div>
+						<form action="{{ url('/megakitapp') }}" method="GET">
+							<input type="text" class="form-control" name="search" placeholder="search">
+							
+							<button type="submit" class="btn btn-main btn-small d-block mt-2">search</button>
+						</form>
 					</div>
 
 					<div class="sidebar-widget latest-post card border-0 p-4 mb-3">
@@ -187,9 +172,9 @@
 									$date = $blog->created_at? date("d M Y ", strtotime($blog->created_at)) : '';
 								@endphp
 								<div class="media border-bottom py-3">
-									<a href="{{ url('megakitapp/blog-detail/'.$blog->slug) }}"><img class="mr-4" src="{{url('images/blog_feature_images/'.$blog->feature_image)}}" alt="" width="87px" height="72px"></a>
+									<a href="{{ url('megakitapp/blog-detail?blog='.$blog->slug) }}"><img class="mr-4 latest-blog-img" src="{{url('images/blog_feature_images/'.$blog->feature_image)}}" alt="" ></a>
 									<div class="media-body">
-										<h6 class="my-2"><a href="{{ url('megakitapp/blog-detail/'.$blog->slug) }}">{{ $blog->title }}</a></h6>
+										<h6 class="my-2"><a href="{{ url('megakitapp/blog-detail?blog='.$blog->slug) }}">{{ $blog->title }}</a></h6>
 										<span class="text-sm text-muted">{{ $date }}</span>
 									</div>
 								</div>
@@ -202,7 +187,7 @@
 						<h5 class="mb-4">Categories</h5>
 						@if (count($categoryData) > 0)
 							@foreach ($categoryData as $category)
-								<a href="#">{{ $category->category_name }}</a>
+								<a href="{{ url('/megakitapp?search='.$category->slug)}}">{{ $category->category_name }}</a>
 							@endforeach
 						@endif
 					</div>
@@ -212,13 +197,14 @@
 
         <div class="row mt-5">
             <div class="col-lg-8">
-                <nav class="navigation pagination py-2 d-inline-block">
+			{!! $blogsData->withQueryString()->links() !!}
+                <nav class="navigation pagination py-2 d-inline-block d-none">
                     <div class="nav-links">
                         <a class="prev page-numbers" href="#">Prev</a>
                         <span aria-current="page" class="page-numbers current">1</span>
                         <a class="page-numbers" href="#">2</a>
                         <a class="next page-numbers" href="#">Next</a>
-						<!-- {!! $blogsData->links() !!} -->
+						 {!! $blogsData->withQueryString()->links() !!}
                     </div>
                 </nav>
             </div>

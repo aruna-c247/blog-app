@@ -14,6 +14,7 @@
 
       <!-- Forgot Password -->
       <div class="card">
+      @include('content/pages/flash-message')
         <div class="card-body">
           <!-- Logo -->
           <div class="app-brand justify-content-center">
@@ -25,10 +26,14 @@
           <!-- /Logo -->
           <h4 class="mb-2">Forgot Password? 🔒</h4>
           <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
-          <form id="formAuthentication" class="mb-3" action="javascript:void(0)" method="GET">
+          <form id="formAuthentication" class="mb-3" action="{{ url('password-reset') }}" method="POST">
+            @csrf
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus>
+              @if ($errors->has('email'))
+                <span class="text-danger">{{ $errors->first('email') }}</span>
+              @endif
             </div>
             <button class="btn btn-primary d-grid w-100">Send Reset Link</button>
           </form>

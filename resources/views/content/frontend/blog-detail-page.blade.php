@@ -23,6 +23,9 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
 
+  <!-- created custom css -->
+  <link rel="stylesheet" href="{{asset('frontend/css/custom.css')}}">
+
 </head>
 
 <body>
@@ -257,15 +260,19 @@
             </div>
             <div class="col-lg-4">
                 <div class="sidebar-wrap">
-                    <div class="sidebar-widget search card p-4 mb-3 border-0">
-                        <input type="text" class="form-control" placeholder="search">
-                        <a href="#" class="btn btn-mian btn-small d-block mt-2">search</a>
+                    <div class="sidebar-widget search card p-4 mb-3 border-0 d-none">
+                        <form action="{{ url('megakitapp/blog-detail/') }}" method="GET">
+							<input type="text" class="form-control" name="search" placeholder="search">
+							
+							<button type="submit" class="btn btn-main btn-small d-block mt-2">search</button>
+						</form>
                     </div>
 
                     <div class="sidebar-widget card border-0 mb-3">
-                        <img src="{{asset('frontend/images/blog/blog-author.jpg')}}" alt="" class="img-fluid">
+                        <img src="{{url('images/user_profile_images/avatar1.jpeg')}}" alt="" class="img-fluid user-profile-img">
+                        {{--{{url('images/user_profile_images/avatar.jpeg')}}--}}
                         <div class="card-body p-4 text-center">
-                            <h5 class="mb-0 mt-4">Arther Conal</h5>
+                            <h5 class="mb-0 mt-4">{{ $userDetail['first_name'] }} {{ $userDetail['last_name'] }}</h5>
                             <p>Digital Marketer</p>
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, dolore.</p>
 
@@ -311,7 +318,7 @@
                         <!-- end -->
                     </div>
 
-                    <div class="sidebar-widget bg-white rounded tags p-4 mb-3">
+                    <div class="sidebar-widget bg-white rounded tags p-4 mb-3 d-none">
 
                         <h5 class="mb-4">Categories</h5>
                         @if (count($categoryData) > 0)
@@ -320,17 +327,6 @@
                                 <a href="#">{{ $category->category_name }}</a>
                             @endforeach
                         @endif
-                        
-                        <!-- <h5 class="mb-4">Tags</h5>
-
-                        <a href="#">Web</a>
-                        <a href="#">agency</a>
-                        <a href="#">company</a>
-                        <a href="#">creative</a>
-                        <a href="#">html</a>
-                        <a href="#">Marketing</a>
-                        <a href="#">Social Media</a>
-                        <a href="#">Branding</a> -->
                     </div>
                 </div>
             </div>   

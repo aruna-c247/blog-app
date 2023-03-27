@@ -8,7 +8,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
-    <title>Check mail</title>
+    <title>Reset password</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700" rel="stylesheet" media="screen">
     <style>
       .hover-underline:hover {
@@ -51,10 +51,6 @@
       }
 
       @media (max-width: 600px) {
-        .sm-leading-32 {
-          line-height: 32px !important;
-        }
-
         .sm-px-24 {
           padding-left: 24px !important;
           padding-right: 24px !important;
@@ -71,45 +67,48 @@
       }
     </style>
   </head>
-  <body style="margin: 0; padding: 0; width: 100%; word-break: break-word; -webkit-font-smoothing: antialiased; --bg-opacity: 1; background-color: #eceff1; ">
-    <div style="display: none;">please verify your email address</div>
-    <div role="article" aria-roledescription="email" aria-label="Verify Email Address" lang="en">
+  <body style="margin: 0; padding: 0; width: 100%; word-break: break-word; -webkit-font-smoothing: antialiased; --bg-opacity: 1; background-color: #eceff1;">
+    <div style="display: none;"></div>
+    <div role="article" aria-roledescription="email" aria-label="Reset your Password" lang="en">
       <table style="font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; width: 100%;" width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
           <td align="center" style="--bg-opacity: 1; background-color: #eceff1; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;" bgcolor="rgba(236, 239, 241, var(--bg-opacity))">
             <table class="sm-w-full" style="font-family: 'Montserrat',Arial,sans-serif; width: 600px;" width="600" cellpadding="0" cellspacing="0" role="presentation">
               <tr>
                 <td class="sm-py-32 sm-px-24" style="font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; padding: 48px; text-align: center;" align="center">
-                  <a href="{{url('/')}}">
+                  <a href="{{url('/login')}}">
                     <img src="{{asset('assets/images/logo.png')}}"  alt="BlogApp" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle;">
                   </a>
                 </td>
               </tr>
-
               <tr>
                 <td align="center" class="sm-px-24" style="font-family: 'Montserrat',Arial,sans-serif;">
                   <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                     <tr>
-                      <td class="sm-px-24" style="--bg-opacity: 1; background-color: #ffffff; border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 14px; line-height: 24px; padding: 48px; text-align: left; --text-opacity: 1; color: #626262; " align="left">
-                        <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Hey</p>
-                        <p style="font-weight: 700; font-size: 20px; margin-top: 0; --text-opacity: 1; color: #ff5850;">{{ $first_name }} {{ $last_name }}!</p>
-                        <p class="sm-leading-32" style="font-weight: 600; font-size: 20px; margin: 0 0 16px; --text-opacity: 1; color: #263238;">
-                        Thank you for signing up! 👋
+                      <td class="sm-px-24" style="--bg-opacity: 1; background-color: #ffffff; border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 14px; line-height: 24px; padding: 48px; text-align: left; --text-opacity: 1; color: #626262;" bgcolor="rgba(255, 255, 255, var(--bg-opacity))" align="left">
+                        <p style="font-weight: 600; font-size: 18px; margin-bottom: 0; color: #626262;">Hey</p>
+                        <p style="font-weight: 700; font-size: 20px; margin-top: 0; --text-opacity: 1; color: #ff5850;">{{ $userFullName }}!</p>
+                        <p style="margin: 0 0 24px;">
+                        A request to reset your password has been received by your
+                          <span style="font-weight: 600;">BlogApp</span> Account -
+                          <a href="mailto:support@example.com" class="hover-underline" style="--text-opacity: 1; color: #D56DFB; text-decoration: none;">{{ $email }}</a>.
+                          
                         </p>
-                        <p style="margin: 0 0 24px; color:#626262;">
-                        Verify your email address by clicking the button below and join our creative community, start exploring resources or showcasing your work.
-                        </p>
-                        <p style="margin: 0 0 24px; color:#626262;">
-                        If you have not signed up for the Blog app, please ignore this email or contact us at
-                          <a href="mailto:support@example.com" class="hover-underline" style="--text-opacity: 1; color: #D56DFB;  text-decoration: none;">support@example.com</a>
-                        </p>
+                        <p style="margin: 0 0 24px; color: #626262;">Use this link to reset your password and log in.</p>
                         <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
                             <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #696cff; border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;" bgcolor="rgba(115, 103, 240, var(--bg-opacity))">
-                              <a href="{{ url($reset_link) }}" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; text-decoration: none;">Verify now &rarr;</a>
+                              <a href="{{ url($reset_link) }}" data-email="{{$email}}" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; text-decoration: none;">Reset password &rarr;</a>
                             </td>
                           </tr>
                         </table>
+                        <p style="margin: 24px 0;">
+                          <span style="font-weight: 600;">Note:</span> This link is valid for 30 minutes from the time it is sent to you and can only be used to change your password once.
+                        </p>
+                        <p style="margin: 0;">
+                        If you didn't intend to deactivate your account or you need our help maintaining your account, please contact us at
+                          <a href="mailto:support@example.com" class="hover-underline" style="--text-opacity: 1; color: #D56DFB; text-decoration: none;">support@example.com</a>
+                        </p>
                         <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
                             <td style="font-family: 'Montserrat',Arial,sans-serif; padding-top: 32px; padding-bottom: 32px;">
@@ -119,9 +118,9 @@
                         </table>
                         <p style="margin: 0 0 16px; color:#626262;">
                         Not sure why you received this email? Please
-                          <a href="mailto:support@example.com" class="hover-underline" style="--text-opacity: 1; color: #D56DFB;  text-decoration: none;">let us know</a>.
+                          <a href="mailto:support@example.com" class="hover-underline" style="--text-opacity: 1; color: #D56DFB; text-decoration: none;">let us know</a>.
                         </p>
-                        <p style="margin: 0 0 16px; color:#626262;">Thank you, <br>The Blog app team</p>
+                        <p style="margin: 0 0 16px; color:#626262;">Thank you, <br>The Blog app team.</p>
                       </td>
                     </tr>
                     <tr>

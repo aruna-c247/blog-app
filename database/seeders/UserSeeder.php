@@ -20,6 +20,8 @@ class UserSeeder extends Seeder
             'last_name'  => 'Doe',
             'email' => 'ivan@mailinator.com',
             'password' => Hash::make(123456),
+            'is_verify' => 1,
+            'status' => 1,
         ]);
     }
 }

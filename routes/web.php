@@ -19,16 +19,23 @@ $controller_path = 'App\Http\Controllers';
 Route::get('/login-page', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');
 Route::get('/register-page', $controller_path . '\authentications\RegisterBasic@index')->name('auth-register-basic');
 Route::get('/forgot-password', $controller_path . '\authentications\ForgotPasswordBasic@index')->name('auth-reset-password-basic');
+//forgot-password
+Route::post('password-reset', $controller_path . '\authentications\ForgotPasswordBasic@sendResetPasswordLink');
+Route::post('update-forgot-password', $controller_path . '\authentications\ForgotPasswordBasic@updateForgotPassword');
+
+Route::get('/reset-password', $controller_path . '\authentications\ForgotPasswordBasic@changePassword')->name('reset-password');
 
 Route::post('/register', $controller_path . '\authentications\RegisterBasic@registerUser');
 Route::post('/login', $controller_path . '\authentications\LoginBasic@customLogin');
     
 Route::get('thank-you', $controller_path. '\authentications\RegisterBasic@thankYou');
-Route::get('test', $controller_path. '\authentications\RegisterBasic@mailVerifyPage');
-Route::get('test2', $controller_path. '\authentications\RegisterBasic@mailforgotpasswordPage');
+
 Route::get('verification', $controller_path. '\authentications\RegisterBasic@verifyToken')->name('verification');
 Route::get('token-expire', $controller_path. '\authentications\RegisterBasic@tokenExpire')->name('token-expire');  
 
+//load view
+Route::get('test', $controller_path. '\authentications\RegisterBasic@mailVerifyPage');
+Route::get('test2', $controller_path. '\authentications\RegisterBasic@mailforgotpasswordPage');
 
 Route::middleware('auth')->group(function() {
     $controller_path = 'App\Http\Controllers';
@@ -58,7 +65,9 @@ Route::group(['prefix' => 'megakitapp'], function () {
     $controller_path = 'App\Http\Controllers';
 
     Route::get('/', $controller_path . '\frontend\BlogController@index');
-    Route::get('/blog-detail/{key}', $controller_path . '\frontend\BlogController@blogDetail')->name('blog-detail');
+    // Route::get('/blog-detail/{key}', $controller_path . '\frontend\BlogController@blogDetail')->name('blog-detail');
+
+    Route::get('/blog-detail', $controller_path . '\frontend\BlogController@blogDetail')->name('blog-detail');
     
 });
 
