@@ -198,7 +198,7 @@
         <div class="row mt-5">
             <div class="col-lg-8">
 			{!! $blogsData->withQueryString()->links() !!}
-                <nav class="navigation pagination py-2 d-inline-block d-none">
+                <!-- <nav class="navigation pagination py-2 d-inline-block">
                     <div class="nav-links">
                         <a class="prev page-numbers" href="#">Prev</a>
                         <span aria-current="page" class="page-numbers current">1</span>
@@ -206,7 +206,7 @@
                         <a class="next page-numbers" href="#">Next</a>
 						 {!! $blogsData->withQueryString()->links() !!}
                     </div>
-                </nav>
+                </nav> -->
             </div>
         </div>
     </div>

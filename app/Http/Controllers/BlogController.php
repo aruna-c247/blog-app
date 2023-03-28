@@ -23,7 +23,7 @@ class BlogController extends Controller
     public function index(Request $request)
     {
         // pagination
-        $perPage = ($request->per_page) ? $request->per_page : 10;
+        $perPage = ($request->per_page) ? $request->per_page : 5;
        
         $blogData = Blog::with('category')->orderBy('id', 'desc')->paginate($perPage);
     

@@ -24,7 +24,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <!-- <th>#</th> -->
+          <th>#</th>
           <th>Title</th>
           <th>Category</th>
           <th>Feature Image</th>
@@ -34,9 +34,11 @@
       </thead>
       <tbody class="table-border-bottom-0">
         @if (!empty($blogData))
+          @php $i = 1; @endphp
           @foreach($blogData as $blog)
+
         <tr>
-          <!-- <td><i class="fab fa-angular fa-lg text-danger"></i> <strong>{{$blog->id}}</strong></td> -->
+          <td><i class="fab fa-angular fa-lg text-danger"></i> <strong>{{ $i }}</strong></td>
           <td><i class="fab fa-angular fa-lg text-danger"></i> <strong>{{$blog->title}}</strong></td>
           <td>{{$blog->category->category_name}}</td>
           <td>
@@ -65,6 +67,7 @@
             </div>
           </td>
         </tr>
+        @php $i++; @endphp
         @endforeach
       
         @else

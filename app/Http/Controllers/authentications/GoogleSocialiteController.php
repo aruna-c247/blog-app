@@ -4,11 +4,10 @@ namespace App\Http\Controllers\authentications;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-//use Socialite;
 use Auth;
 use Exception;
 use App\Models\User;
-use Laravel\Socialite\Facades\Socialite;
+use Socialite;
 
 class GoogleSocialiteController extends Controller
 {
@@ -31,10 +30,9 @@ class GoogleSocialiteController extends Controller
     {
         try {
             
-            $user = Socialite::driver('google')->user();
-            dd($user);
+            $user = Socialite::driver('google')->stateless()->user();
       
-            $finduser = User::where('social_id', $user->id)->first();
+            $finduser = User::where('google_id', $user->id)->first();
       
             if($finduser){
       
@@ -44,7 +42,8 @@ class GoogleSocialiteController extends Controller
       
             }else{
                 $newUser = User::create([
-                    'name' => $user->name,
+                    'first_name' => $user->name,
+                    'last_name' => $user->name,
                     'email' => $user->email,
                     'google_id'=> $user->id,
                     'password' => encrypt('my-google')
