@@ -33,9 +33,10 @@ Route::get('thank-you', $controller_path. '\authentications\RegisterBasic@thankY
 Route::get('verification', $controller_path. '\authentications\RegisterBasic@verifyToken')->name('verification');
 Route::get('token-expire', $controller_path. '\authentications\RegisterBasic@tokenExpire')->name('token-expire');  
 
-//load view
-Route::get('test', $controller_path. '\authentications\RegisterBasic@mailVerifyPage');
-Route::get('test2', $controller_path. '\authentications\RegisterBasic@mailforgotpasswordPage');
+// social login route
+Route::get('google', $controller_path. '\authentications\GoogleSocialiteController@redirectToGoogle')->name('google.login');
+Route::get('google/callback', $controller_path. '\authentications\GoogleSocialiteController@handleCallback');
+
 
 Route::middleware('auth')->group(function() {
     $controller_path = 'App\Http\Controllers';
@@ -52,7 +53,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/add-blog', $controller_path . '\BlogController@store');
     Route::get('/edit-blog/{key}', $controller_path . '\BlogController@edit');
     Route::post('/update/{key}', $controller_path . '\BlogController@update');
-    Route::get('/delete/{key}', $controller_path . '\BlogController@destroy');
+    Route::post('delete', $controller_path . '\BlogController@destroy')->name('delete');
 
     //user profile
     Route::get('/profile', $controller_path . '\dashboard\Analytics@userProfile')->name('profile');;

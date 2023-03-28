@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\emailVerification;
+use Exception;
 
 class RegisterBasic extends Controller
 {

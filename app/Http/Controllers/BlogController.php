@@ -129,9 +129,9 @@ class BlogController extends Controller
      * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function destroy($slug)
+    public function destroy(Request $request) //$slug
     {
-        $blogData = Blog::where('slug', $slug)->delete();
+        $blogData = Blog::where('slug', $request->delete_blog_id)->delete();
 
         return redirect('blog-list')->with('success', 'Blog deleted successfully!');
     }

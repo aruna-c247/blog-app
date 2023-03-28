@@ -4,8 +4,6 @@
 
 @section('page-script')
 <!-- <script src="{{asset('assets/js/ui-modals.js')}}"></script> -->
-<!-- Page -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 @endsection
 
 @section('content')
@@ -50,13 +48,6 @@
                 <img class="rounded-circle" src="{{url('images/blog_feature_images/avatar.png')}}" />
               @endif
               </li>
-              <!-- <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                <img src="{{asset('assets/img/avatars/6.png')}}" alt="Avatar" class="rounded-circle">
-              </li>
-              <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Christina Parker">
-                <img src="{{asset('assets/img/avatars/7.png')}}" alt="Avatar" class="rounded-circle">
-              </li> -->
-
             </ul>
           </td>
           @if($blog->status == 1)
@@ -91,7 +82,8 @@
 <!-- Modal -->
 <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
   <div class="modal-dialog">
-    <form class="modal-content">
+    <form class="modal-content" action="{{route('delete')}}" method="POST">
+      @csrf
       <div class="modal-header">
         <h5 class="modal-title" id="backDropModalTitle">Are you sure?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -99,25 +91,24 @@
       <div class="modal-body">
         <div class="row">
           <p>Do you really want to delete these records? This process cannot be undone.</p>
-          <input type="hidden" name="delete_blog_id"/>
+          <input type="hidden" id="delete-blog-id" name="delete_blog_id"/>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Delete</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
       </div>
     </form>
   </div>
 </div>
 <!--/ Striped Rows -->
-
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
     $('.delete-blog').click(function() {
       event.preventDefault();
-      var get = $(this).attr('data-slug');
-      console.log('Delete =='+get);
-        //alert(get);
+      var deleteId = $(this).attr('data-slug');
+      $('#delete-blog-id').val(deleteId);
     })
 });
 </script>

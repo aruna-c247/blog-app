@@ -158,7 +158,7 @@
 						<form action="{{ url('/megakitapp') }}" method="GET">
 							<input type="text" class="form-control" name="search" placeholder="search">
 							
-							<button type="submit" class="btn btn-main btn-small d-block mt-2">search</button>
+							<button type="submit" class="btn btn-main btn-small d-block mt-2 w-100">search</button>
 						</form>
 					</div>
 
