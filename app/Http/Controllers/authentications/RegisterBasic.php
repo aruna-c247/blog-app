@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\emailVerification;
 use Exception;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Arr;
 
 class RegisterBasic extends Controller
 {
@@ -21,8 +23,9 @@ class RegisterBasic extends Controller
    */
   public function index()
   {
-  
-    return view('content.authentications.auth-register-basic');
+    $roles = Role::pluck('name','name')->all();
+    // dd($roles);
+    return view('content.authentications.auth-register-basic', compact('roles'));
   }
 
   /**
@@ -42,6 +45,8 @@ class RegisterBasic extends Controller
       //$userData['password'] = Str::random( 16 );
       $userData['status'] = 1;
       $user = User::create($userData);
+
+      $user->assignRole($request->input('roles'));
 
       // check user is exist
       if (!empty($user->id)) {

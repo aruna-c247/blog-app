@@ -58,7 +58,6 @@
                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
               </div>
             </div>
-
             <div class="mb-3">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms">

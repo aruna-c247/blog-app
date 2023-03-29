@@ -61,8 +61,12 @@
             <div class="dropdown">
               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
               <div class="dropdown-menu">
+              @can('blog-edit')
                 <a class="dropdown-item" href="{{url('edit-blog/'.$blog->slug)}}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="top" data-bs-html="true" title="" data-bs-original-title="<i class='bx bx-edit-alt me-1'></i> <span>Edit</span>"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+              @endcan
+              @can('blog-delete')
                 <a class="dropdown-item delete-blog" href="#" data-slug="{{$blog->slug}}" data-bs-offset="0,4" data-bs-placement="top" data-bs-html="true" title="" data-bs-original-title="<i class='bx bx-trash me-1'></i> <span>Delete</span>" data-bs-toggle="modal" data-bs-target="#backDropModal"><i class="bx bx-trash me-1"></i> Delete</a> {{--data-bs-toggle="tooltip" {{url('delete/'.$blog->slug)}} --}}
+              @endcan
               </div>
             </div>
           </td>

@@ -15,6 +15,12 @@
         "slug": "layouts",
         "url": "/blog-list"
       },
+      {
+        "name": "Roles",
+        "icon": "menu-icon tf-icons bx bx-detail", 
+        "slug": "layouts",
+        "url": "/roles"
+      },
       
       {
         "menuHeader": "Documentation"

@@ -56,7 +56,12 @@ Route::middleware('auth')->group(function() {
     Route::post('delete', $controller_path . '\BlogController@destroy')->name('delete');
 
     //user profile
-    Route::get('/profile', $controller_path . '\dashboard\Analytics@userProfile')->name('profile');;
+    Route::get('/profile', $controller_path . '\dashboard\Analytics@userProfile')->name('profile');
+
+    // roles & permission routes
+    Route::resource('roles', $controller_path . '\RoleController');
+    Route::resource('users', $controller_path . '\UserController');
+    //Route::resource('products', ProductController::class);
     
 });
 
